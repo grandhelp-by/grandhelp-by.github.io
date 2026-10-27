@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="be">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GrandHelp — дапамога бабулям і дзядулям</title>
+<meta name="description" content="Студэнцкі сацыяльны праект БрДТУ: валанцёры дапамагаюць бабулям і дзядулям па ўсёй Беларусі.">
+<link rel="icon" type="image/png" href="assets/avatar.png">
+<link rel="apple-touch-icon" href="assets/avatar.png">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="GrandHelp — дапамога бабулям і дзядулям">
+<meta property="og:description" content="Студэнцкі сацыяльны праект БрДТУ: валанцёры дапамагаюць бабулям і дзядулям па ўсёй Беларусі.">
+<meta property="og:url" content="https://grandhelp-by.github.io/">
+<meta property="og:locale" content="be_BY">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:locale:alternate" content="en_US">
+<link rel="alternate" hreflang="be" href="https://grandhelp-by.github.io/?lang=be">
+<link rel="alternate" hreflang="ru" href="https://grandhelp-by.github.io/?lang=ru">
+<link rel="alternate" hreflang="en" href="https://grandhelp-by.github.io/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://grandhelp-by.github.io/">
+<meta property="og:image" content="https://grandhelp-by.github.io/assets/social-preview.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F9FF;
+    --bg-2: #E9EFFF;
+    --card: #FFFFFF;
+    --ink: #1C2850;
+    --ink-2: #3A4670;
+    --muted: #5B6890;
+    --line: #C9D7FA;
+    --accent: #2B4FB8;
+    --accent-2: #5B8DEF;
+    --red: #C8313E;
+    --green: #4E9A3E;
+    --shadow: 0 14px 34px rgba(28, 40, 80, .12);
+    --hero-end: #D6E2FF;
+    --radius: 24px;
+    --fs: 19px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0F1528; --bg-2: #161E38; --card: #1C2645;
+      --ink: #EEF2FF; --ink-2: #C9D3F2; --muted: #9AA7CE; --line: #34437A;
+      --accent: #3E6BE0; --accent-2: #7FA6FF;
+      --hero-end: #1C2850;
+      --shadow: 0 14px 34px rgba(0, 0, 0, .35);
+    }
+  }
+  html.large { --fs: 23px; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: var(--fs); }
+  body {
+    font-family: 'Manrope', 'Noto Sans', system-ui, sans-serif;
+    background: var(--bg); color: var(--ink); line-height: 1.55;
+  }
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 20px; }
+
+  /* Belarusian rushnik ornament */
+  .ornament {
+    height: 26px;
+    background:
+      url("assets/ornament.svg") repeat-x left center / auto 100%;
+  }
+
+  /* header */
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid color-mix(in srgb, var(--line) 50%, transparent);
+  }
+  .bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; min-height: 72px; padding-top: 12px; padding-bottom: 12px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-family: 'Playfair Display', Georgia, serif; font-weight: 800; font-size: 1.4rem; text-decoration: none; }
+  h1, h2, .step::before { font-family: 'Playfair Display', Georgia, serif; font-variant-numeric: lining-nums; }
+  .logo img { width: 40px; height: 40px; border-radius: 12px; }
+  .logo span { color: var(--accent); }
+  nav { display: flex; gap: 22px; margin-left: auto; }
+  nav a { text-decoration: none; font-weight: 700; color: var(--ink-2); font-size: .9rem; }
+  nav a:hover { color: var(--accent); }
+  .tools { display: flex; gap: 8px; align-items: center; margin-left: auto; }
+  nav + .tools { margin-left: 0; }
+  .seg { display: inline-flex; border: 2px solid var(--line); border-radius: 999px; overflow: hidden; }
+  .seg button, .fs-btn {
+    font: inherit; font-weight: 800; font-size: .8rem; cursor: pointer;
+    background: transparent; color: var(--ink-2); border: 0; padding: 7px 13px;
+  }
+  .seg button[aria-pressed="true"] { background: linear-gradient(135deg, var(--accent-2), var(--accent)); color: #fff; }
+  .fs-btn { border: 2px solid var(--line); border-radius: 999px; }
+  .fs-btn[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+
+  /* hero */
+  .hero {
+    background: radial-gradient(circle at 10% 0%, var(--bg) 0%, var(--bg-2) 60%, var(--hero-end) 100%);
+  }
+  .hero .wrap { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; padding-top: 64px; padding-bottom: 72px; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--card); border: 2px solid var(--line); border-radius: 999px;
+    padding: 6px 16px 6px 8px; font-weight: 800; font-size: .8rem; color: var(--accent);
+  }
+  .eyebrow i { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #EAF0FF; }
+  .eyebrow i img { width: 22px; height: 22px; }
+  h1 { font-weight: 700; font-size: clamp(2.2rem, 4.8vw, 3.6rem); line-height: 1.1; letter-spacing: -.5px; margin: 20px 0 18px; }
+  h1 em { font-style: italic; padding-right: .08em; background: linear-gradient(90deg, var(--accent-2), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lead { font-size: 1.1rem; color: var(--ink-2); max-width: 34em; }
+  .cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 15px 26px; border-radius: 999px; font-weight: 800; font-size: 1rem;
+    text-decoration: none; border: 2px solid transparent; transition: transform .15s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn.primary { background: linear-gradient(135deg, var(--accent-2), var(--accent)); color: #fff; box-shadow: 0 10px 22px rgba(43, 79, 184, .3); }
+  .btn.ghost { background: var(--card); color: var(--accent); border-color: var(--line); }
+  .scene { border-radius: 36px; overflow: hidden; box-shadow: var(--shadow); background: #E4ECFF; aspect-ratio: 500 / 528; }
+  .scene img { width: 100%; height: 100%; object-fit: cover; }
+  .scene-wrap { position: relative; }
+  .bouquet { position: absolute; left: -46px; bottom: -34px; width: 150px; pointer-events: none; }
+
+  /* sections */
+  section { padding: 80px 0; }
+  .sec-head { text-align: center; max-width: 720px; margin: 0 auto 44px; }
+  h2 { font-weight: 700; font-size: clamp(1.7rem, 3.2vw, 2.3rem); line-height: 1.15; }
+  .sec-head p { color: var(--muted); margin-top: 10px; }
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; counter-reset: s; }
+  .step { background: var(--card); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow); position: relative; }
+  .step::before {
+    counter-increment: s; content: counter(s);
+    display: grid; place-items: center; width: 52px; height: 52px; border-radius: 16px;
+    background: linear-gradient(135deg, var(--accent-2), var(--accent)); color: #fff;
+    font-weight: 900; font-size: 1.3rem; margin-bottom: 16px;
+  }
+  h3 { font-weight: 800; font-size: 1.15rem; margin-bottom: 6px; }
+  .step p, .svc p { color: var(--ink-2); font-size: .92rem; }
+
+  .alt { background: var(--bg-2); }
+  .svcs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .svc { background: var(--card); border-radius: var(--radius); padding: 24px; display: flex; gap: 16px; align-items: flex-start; border: 2px solid transparent; transition: border-color .15s; }
+  .svc:hover { border-color: var(--line); }
+  .svc .ic { flex: none; width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; background: color-mix(in srgb, var(--accent-2) 16%, transparent); }
+  .svc svg { width: 28px; height: 28px; stroke: var(--accent); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  .roles { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .role { border-radius: 30px; padding: 36px; box-shadow: var(--shadow); }
+  .role.elder { background: var(--card); border: 2px solid var(--line); }
+  .role.vol { background: linear-gradient(135deg, var(--accent-2), var(--accent)); color: #fff; }
+  .role h3 { font-size: 1.4rem; margin-bottom: 18px; }
+  .role ul { list-style: none; display: grid; gap: 12px; margin-bottom: 26px; }
+  .role li { display: flex; gap: 12px; align-items: flex-start; }
+  .role li::before { content: ""; flex: none; width: 24px; height: 24px; margin-top: 3px; border-radius: 50%; background: var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12l4 4 8-9' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat; }
+  .role.vol li::before { background-color: rgba(255,255,255,.25); }
+  .role.vol .btn { background: #fff; color: var(--accent); }
+
+  .about { display: grid; grid-template-columns: 220px 1fr; gap: 44px; align-items: center; background: var(--card); border-radius: 36px; padding: 44px; box-shadow: var(--shadow); }
+  .about img { border-radius: 36px; }
+  .about p { color: var(--ink-2); margin-top: 14px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .chip { padding: 8px 16px; border-radius: 999px; border: 2px solid var(--line); font-weight: 800; font-size: .8rem; color: var(--accent); text-decoration: none; display: inline-flex; gap: 8px; align-items: center; }
+  .flag { width: 22px; height: 14px; border-radius: 3px; background: linear-gradient(#C8313E 0 66.6%, #4AA657 66.6% 100%); position: relative; overflow: hidden; }
+  .flag::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 4px; background: repeating-linear-gradient(#fff 0 2px, #C8313E 2px 4px); }
+
+  .contacts { text-align: center; }
+  .contact-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 26px; }
+
+  footer { background: var(--ink); color: #E4ECFF; }
+  :root:not([data-theme="light"]) footer { }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; padding-top: 26px; padding-bottom: 26px; font-size: .8rem; opacity: .9; }
+  @media (prefers-color-scheme: dark) { footer { background: #0A0F1E; } }
+
+  @media (max-width: 960px) {
+    nav { order: 3; width: 100%; margin-left: 0; gap: 18px; overflow-x: auto; white-space: nowrap; padding: 2px 0 4px; scrollbar-width: none; }
+    nav::-webkit-scrollbar { display: none; }
+    nav + .tools { margin-left: auto; }
+    .hero .wrap { grid-template-columns: 1fr; padding-top: 40px; }
+    .scene-wrap { max-width: 420px; margin: 0 auto; width: 100%; }
+    .bouquet { left: -14px; bottom: -24px; width: 110px; }
+    .steps, .svcs, .roles { grid-template-columns: 1fr; }
+    .about { grid-template-columns: 1fr; text-align: center; padding: 30px 20px; }
+    .about img { width: 160px; margin: 0 auto; }
+    .about .chips { justify-content: center; }
+    section { padding: 56px 0; }
+  }
+  @media (max-width: 480px) {
+    .logo b { display: none; }
+    .seg button, .fs-btn { padding: 7px 11px; }
+    .btn { width: 100%; justify-content: center; }
+    .role { padding: 26px 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="ornament" aria-hidden="true"></div>
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#top"><img src="assets/avatar.png" alt=""><b>Grand<span>Help</span></b></a>
+    <nav>
+      <a href="#how" data-i18n="nav_how"></a>
+      <a href="#services" data-i18n="nav_services"></a>
+      <a href="#about" data-i18n="nav_about"></a>
+      <a href="#contacts" data-i18n="nav_contacts"></a>
+    </nav>
+    <div class="tools">
+      <button class="fs-btn" id="fs" type="button" aria-pressed="false" data-i18n-title="fs_title">A+</button>
+      <div class="seg" role="group" aria-label="Language">
+        <button type="button" data-lang="be" aria-pressed="false" lang="be" title="Беларуская">BY</button>
+        <button type="button" data-lang="ru" aria-pressed="false" lang="ru" title="Русский">RU</button>
+        <button type="button" data-lang="en" aria-pressed="false" lang="en" title="English">EN</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">
+          <i><img src="assets/cornflower.svg" alt=""></i>
+          <span data-i18n="eyebrow"></span>
+        </span>
+        <h1 data-i18n-html="hero_title"></h1>
+        <p class="lead" data-i18n="hero_text"></p>
+        <div class="cta">
+          <a class="btn primary" href="#contacts" data-i18n="btn_need"></a>
+          <a class="btn ghost" href="#volunteers" data-i18n="btn_volunteer"></a>
+        </div>
+      </div>
+      <div class="scene-wrap">
+        <div class="scene"><img src="assets/hero-scene.svg" alt="" data-i18n-alt="hero_alt"></div>
+        <img class="bouquet" src="assets/bouquet.svg" alt="">
+      </div>
+    </div>
+  </div>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="sec-head"><h2 data-i18n="how_title"></h2><p data-i18n="how_sub"></p></div>
+      <div class="steps">
+        <div class="step"><h3 data-i18n="step1_t"></h3><p data-i18n="step1"></p></div>
+        <div class="step"><h3 data-i18n="step2_t"></h3><p data-i18n="step2"></p></div>
+        <div class="step"><h3 data-i18n="step3_t"></h3><p data-i18n="step3"></p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="alt">
+    <div class="wrap">
+      <div class="sec-head"><h2 data-i18n="svc_title"></h2><p data-i18n="svc_sub"></p></div>
+      <div class="svcs">
+        <div class="svc"><span class="ic"><svg viewBox="0 0 24 24"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6L5 3H2"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg></span>
+          <div><h3 data-i18n="s1_t"></h3><p data-i18n="s1"></p></div></div>
+        <div class="svc"><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="12" rx="3"/><path d="M8 8V5h8v3M12 11v6M9 14h6"/></svg></span>
+          <div><h3 data-i18n="s2_t"></h3><p data-i18n="s2"></p></div></div>
+        <div class="svc"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></span>
+          <div><h3 data-i18n="s3_t"></h3><p data-i18n="s3"></p></div></div>
+        <div class="svc"><span class="ic"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></span>
+          <div><h3 data-i18n="s4_t"></h3><p data-i18n="s4"></p></div></div>
+        <div class="svc"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="8" cy="5" r="2"/><circle cx="16" cy="5" r="2"/><path d="M8 8v6l-2 7M8 14l2 7M16 8v6l-2 7M16 14l2 7M5 11h6M13 11h6"/></svg></span>
+          <div><h3 data-i18n="s5_t"></h3><p data-i18n="s5"></p></div></div>
+        <div class="svc"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3v3M12 3v3"/></svg></span>
+          <div><h3 data-i18n="s6_t"></h3><p data-i18n="s6"></p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="volunteers">
+    <div class="wrap roles">
+      <div class="role elder">
+        <h3 data-i18n="elder_t"></h3>
+        <ul><li data-i18n="elder1"></li><li data-i18n="elder2"></li><li data-i18n="elder3"></li></ul>
+        <a class="btn primary" href="#contacts" data-i18n="btn_need"></a>
+      </div>
+      <div class="role vol">
+        <h3 data-i18n="vol_t"></h3>
+        <ul><li data-i18n="vol1"></li><li data-i18n="vol2"></li><li data-i18n="vol3"></li></ul>
+        <a class="btn" href="#contacts" data-i18n="btn_volunteer"></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="alt">
+    <div class="wrap">
+      <div class="about">
+        <img src="assets/avatar.png" alt="GrandHelp">
+        <div>
+          <h2 data-i18n="about_t"></h2>
+          <p data-i18n="about1"></p>
+          <p data-i18n="about2"></p>
+          <div class="chips">
+            <span class="chip" data-i18n="uni"></span>
+            <span class="chip"><span class="flag"></span><span data-i18n="city"></span></span>
+            <a class="chip" href="https://github.com/grandhelp-by" target="_blank" rel="noopener">Open Source · GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacts" class="contacts">
+    <div class="wrap">
+      <div class="sec-head"><h2 data-i18n="contacts_t"></h2><p data-i18n="contacts_sub"></p></div>
+      <div class="contact-list" id="contact-list"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="year"></span> GrandHelp · <span data-i18n="footer"></span></span>
+    <span>Apache-2.0 · <a href="https://github.com/grandhelp-by/grandhelp-by.github.io" target="_blank" rel="noopener">GitHub</a></span>
+  </div>
+</footer>
+<div class="ornament" aria-hidden="true"></div>
+
+<script>
+  // Fill in project contacts here; empty values are not shown on the page.
+  const CONTACTS = {
+    phone: '',     // e.g. '+375 29 123-45-67'
+    email: '',     // e.g. 'grandhelp@example.com'
+    telegram: '',  // e.g. 'grandhelp_by' (without @)
+    github: 'https://github.com/grandhelp-by',
+  };
+
+  const I18N = {
+    ru: {
+      page_title: 'GrandHelp — помощь бабушкам и дедушкам',
+      nav_how: 'Как это работает', nav_services: 'Чем помогаем', nav_about: 'О проекте', nav_contacts: 'Контакты',
+      fs_title: 'Крупный шрифт',
+      eyebrow: 'Студенческий социальный проект БрГТУ',
+      hero_title: 'Помогаем <em>бабушкам и дедушкам</em> по всей Беларуси',
+      hero_text: 'GrandHelp соединяет пожилых людей, которым нужна помощь, со студентами-волонтёрами. Покупки, лекарства, дела по дому или просто тёплый разговор — мы рядом.',
+      hero_alt: 'Бабушка и студент-волонтёр держатся за руки возле дома',
+      btn_need: 'Мне нужна помощь', btn_volunteer: 'Стать волонтёром',
+      how_title: 'Как это работает', how_sub: 'Три простых шага — от просьбы до помощи.',
+      step1_t: 'Оставьте просьбу', step1: 'Бабушка, дедушка или их родные рассказывают, какая помощь нужна и когда.',
+      step2_t: 'Волонтёр откликается', step2: 'Студент-волонтёр берёт задачу и связывается с вами, чтобы договориться о времени.',
+      step3_t: 'Помощь приходит', step3: 'Волонтёр приходит и помогает. Вы отмечаете, что всё получилось.',
+      svc_title: 'Чем мы помогаем', svc_sub: 'Небольшие повседневные дела, которые даются всё труднее.',
+      s1_t: 'Продукты', s1: 'Купим и принесём продукты домой.',
+      s2_t: 'Лекарства', s2: 'Сходим в аптеку по вашему списку или рецепту.',
+      s3_t: 'Дела по дому', s3: 'Поможем с уборкой, вынесем мусор, поможем на даче.',
+      s4_t: 'Телефон и интернет', s4: 'Научим пользоваться смартфоном, видеозвонками и онлайн-сервисами.',
+      s5_t: 'Сопровождение', s5: 'Проводим до поликлиники, почты или банка.',
+      s6_t: 'Общение', s6: 'Просто придём в гости, поговорим и выпьем чаю.',
+      elder_t: 'Пожилым людям и их родным',
+      elder1: 'Помощь бесплатная', elder2: 'Волонтёры — студенты БрГТУ', elder3: 'Можно оставить просьбу за родителей или соседей',
+      vol_t: 'Студентам-волонтёрам',
+      vol1: 'Добрые дела рядом с домом', vol2: 'Удобный график — берите задачи, когда есть время', vol3: 'Опыт волонтёрства и новые друзья',
+      about_t: 'О проекте',
+      about1: 'GrandHelp — студенческий социальный проект, который создают студенты Брестского государственного технического университета.',
+      about2: 'Мы хотим, чтобы ни один пожилой человек не оставался без поддержки. Код проекта открыт — присоединяйтесь к разработке на GitHub.',
+      uni: 'БрГТУ', city: 'Брест',
+      contacts_t: 'Свяжитесь с нами', contacts_sub: 'Напишите или позвоните — мы поможем оставить просьбу или стать волонтёром.',
+      phone: 'Позвонить', email: 'Написать письмо', telegram: 'Telegram', github: 'GitHub',
+      footer: 'студенческий проект БрГТУ',
+    },
+    be: {
+      page_title: 'GrandHelp — дапамога бабулям і дзядулям',
+      nav_how: 'Як гэта працуе', nav_services: 'Чым дапамагаем', nav_about: 'Пра праект', nav_contacts: 'Кантакты',
+      fs_title: 'Буйны шрыфт',
+      eyebrow: 'Студэнцкі сацыяльны праект БрДТУ',
+      hero_title: 'Дапамагаем <em>бабулям і дзядулям</em> па ўсёй Беларусі',
+      hero_text: 'GrandHelp злучае пажылых людзей, якім патрэбна дапамога, са студэнтамі-валанцёрамі. Пакупкі, лекі, справы па хаце ці проста цёплая размова — мы побач.',
+      hero_alt: 'Бабуля і студэнт-валанцёр трымаюцца за рукі каля дома',
+      btn_need: 'Мне патрэбна дапамога', btn_volunteer: 'Стаць валанцёрам',
+      how_title: 'Як гэта працуе', how_sub: 'Тры простыя крокі — ад просьбы да дапамогі.',
+      step1_t: 'Пакіньце просьбу', step1: 'Бабуля, дзядуля ці іх родныя расказваюць, якая дапамога патрэбна і калі.',
+      step2_t: 'Валанцёр адгукаецца', step2: 'Студэнт-валанцёр бярэ заданне і звязваецца з вамі, каб дамовіцца пра час.',
+      step3_t: 'Дапамога прыходзіць', step3: 'Валанцёр прыходзіць і дапамагае. Вы адзначаеце, што ўсё атрымалася.',
+      svc_title: 'Чым мы дапамагаем', svc_sub: 'Невялікія штодзённыя справы, якія даюцца ўсё цяжэй.',
+      s1_t: 'Прадукты', s1: 'Купім і прынясём прадукты дадому.',
+      s2_t: 'Лекі', s2: 'Сходзім у аптэку па вашым спісе ці рэцэпце.',
+      s3_t: 'Справы па хаце', s3: 'Дапаможам з прыбіраннем, вынесем смецце, дапаможам на дачы.',
+      s4_t: 'Тэлефон і інтэрнэт', s4: 'Навучым карыстацца смартфонам, відэазванкамі і анлайн-сэрвісамі.',
+      s5_t: 'Суправаджэнне', s5: 'Праводзім да паліклінікі, пошты ці банка.',
+      s6_t: 'Зносіны', s6: 'Проста прыйдзем у госці, пагаворым і вып’ем гарбаты.',
+      elder_t: 'Пажылым людзям і іх родным',
+      elder1: 'Дапамога бясплатная', elder2: 'Валанцёры — студэнты БрДТУ', elder3: 'Можна пакінуць просьбу за бацькоў ці суседзяў',
+      vol_t: 'Студэнтам-валанцёрам',
+      vol1: 'Добрыя справы побач з домам', vol2: 'Зручны графік — бярыце заданні, калі ёсць час', vol3: 'Досвед валанцёрства і новыя сябры',
+      about_t: 'Пра праект',
+      about1: 'GrandHelp — студэнцкі сацыяльны праект, які ствараюць студэнты Брэсцкага дзяржаўнага тэхнічнага ўніверсітэта.',
+      about2: 'Мы хочам, каб ніводны пажылы чалавек не заставаўся без падтрымкі. Код праекта адкрыты — далучайцеся да распрацоўкі на GitHub.',
+      uni: 'БрДТУ', city: 'Брэст',
+      contacts_t: 'Звяжыцеся з намі', contacts_sub: 'Напішыце ці патэлефануйце — мы дапаможам пакінуць просьбу ці стаць валанцёрам.',
+      phone: 'Патэлефанаваць', email: 'Напісаць ліст', telegram: 'Telegram', github: 'GitHub',
+      footer: 'студэнцкі праект БрДТУ',
+    },
+    en: {
+      page_title: 'GrandHelp — help for grandmothers and grandfathers',
+      nav_how: 'How it works', nav_services: 'How we help', nav_about: 'About', nav_contacts: 'Contacts',
+      fs_title: 'Larger text',
+      eyebrow: 'Student social project of BrSTU',
+      hero_title: 'Helping <em>grandmothers and grandfathers</em> all over Belarus',
+      hero_text: 'GrandHelp connects elderly people who need a hand with student volunteers. Groceries, medicine, housework or just a warm conversation — we are here for you.',
+      hero_alt: 'A grandmother and a student volunteer holding hands near a house',
+      btn_need: 'I need help', btn_volunteer: 'Become a volunteer',
+      how_title: 'How it works', how_sub: 'Three simple steps — from a request to real help.',
+      step1_t: 'Leave a request', step1: 'A grandmother, grandfather or their relatives tell us what help is needed and when.',
+      step2_t: 'A volunteer responds', step2: 'A student volunteer takes the task and contacts you to agree on a time.',
+      step3_t: 'Help arrives', step3: 'The volunteer comes and helps. You confirm that everything went well.',
+      svc_title: 'How we help', svc_sub: 'Small everyday tasks that are getting harder to manage.',
+      s1_t: 'Groceries', s1: 'We buy groceries and bring them to your home.',
+      s2_t: 'Medicine', s2: 'We go to the pharmacy with your list or prescription.',
+      s3_t: 'Housework', s3: 'We help with cleaning, take out the trash and help at the dacha.',
+      s4_t: 'Phone and internet', s4: 'We teach how to use a smartphone, video calls and online services.',
+      s5_t: 'Accompanying', s5: 'We walk with you to the clinic, post office or bank.',
+      s6_t: 'Company', s6: 'We just come to visit, have a chat and a cup of tea.',
+      elder_t: 'For elderly people and their families',
+      elder1: 'Help is free', elder2: 'Volunteers are BrSTU students', elder3: 'You can leave a request for your parents or neighbours',
+      vol_t: 'For student volunteers',
+      vol1: 'Good deeds close to home', vol2: 'Flexible schedule — take tasks when you have time', vol3: 'Volunteering experience and new friends',
+      about_t: 'About the project',
+      about1: 'GrandHelp is a student social project created by students of Brest State Technical University.',
+      about2: 'We want no elderly person to be left without support. The project is open source — join the development on GitHub.',
+      uni: 'BrSTU', city: 'Brest',
+      contacts_t: 'Contact us', contacts_sub: 'Write or call us — we will help you leave a request or become a volunteer.',
+      phone: 'Call', email: 'Send an email', telegram: 'Telegram', github: 'GitHub',
+      footer: 'student project of BrSTU',
+    },
+  };
+
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+  };
+
+  function renderContacts(t) {
+    const links = [];
+    if (CONTACTS.phone) links.push(['tel:' + CONTACTS.phone.replace(/[^+\d]/g, ''), t.phone + ': ' + CONTACTS.phone, 'primary']);
+    if (CONTACTS.email) links.push(['mailto:' + CONTACTS.email, t.email, 'ghost']);
+    if (CONTACTS.telegram) links.push(['https://t.me/' + CONTACTS.telegram, t.telegram, 'ghost']);
+    if (CONTACTS.github) links.push([CONTACTS.github, t.github, 'ghost']);
+    const box = document.getElementById('contact-list');
+    box.replaceChildren(...links.map(([href, text, kind]) => {
+      const a = document.createElement('a');
+      a.className = 'btn ' + kind; a.href = href; a.textContent = text;
+      if (href.startsWith('http')) { a.target = '_blank'; a.rel = 'noopener'; }
+      return a;
+    }));
+  }
+
+  function setLang(lang) {
+    const t = I18N[lang] || I18N.be;
+    document.documentElement.lang = lang;
+    document.title = t.page_title;
+    document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t[el.dataset.i18n]; });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = t[el.dataset.i18nHtml]; });
+    document.querySelectorAll('[data-i18n-alt]').forEach(el => { el.alt = t[el.dataset.i18nAlt]; });
+    document.querySelectorAll('[data-i18n-title]').forEach(el => { el.title = t[el.dataset.i18nTitle]; });
+    document.querySelectorAll('[data-lang]').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang));
+    renderContacts(t);
+    store.set('lang', lang);
+  }
+
+  function setLarge(on) {
+    document.documentElement.classList.toggle('large', on);
+    document.getElementById('fs').setAttribute('aria-pressed', on);
+    store.set('large', on ? '1' : '0');
+  }
+
+  document.querySelectorAll('[data-lang]').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+  document.getElementById('fs').addEventListener('click', () => setLarge(!document.documentElement.classList.contains('large')));
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const urlLang = new URLSearchParams(location.search).get('lang');
+  const initial = I18N[urlLang] ? urlLang
+    : I18N[store.get('lang')] ? store.get('lang') : 'be';
+  setLang(initial);
+  setLarge(store.get('large') === '1');
+</script>
+</body>
+</html>
